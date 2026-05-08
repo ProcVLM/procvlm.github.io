@@ -1,0 +1,39 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"video"> {
+  src: string;
+  /** @deprecated Videos now use their intrinsic aspect ratio automatically. */
+  aspect?: "video" | "square" | "auto";
+  fit?: "contain" | "cover";
+}
+
+const {
+  src,
+  controls = true,
+  loop = true,
+  playsinline = true,
+  muted = true,
+  autoplay = true,
+  class: className = "",
+  ...videoProps
+} = Astro.props;
+
+const forwardedVideoProps = videoProps as Record<string, unknown>;
+delete forwardedVideoProps.aspect;
+delete forwardedVideoProps.fit;
+---
+
+<video
+  class:list={[
+    "h-auto max-h-[24rem] w-full rounded-lg object-contain",
+    className,
+  ]}
+  src={src}
+  controls={controls}
+  loop={loop}
+  playsinline={playsinline}
+  muted={muted}
+  autoplay={autoplay}
+  {...forwardedVideoProps}>
+</video>

@@ -1,0 +1,20 @@
+---
+import type { Note } from "../types/types";
+
+interface Props {
+  notes: Note[];
+}
+
+const { notes } = Astro.props;
+---
+
+<div class="mx-auto flex max-w-[50rem] flex-col items-center gap-1 text-center text-sm leading-snug">
+  {
+    // prettier-ignore
+    notes.map((note) =>
+      <span class="block">
+        <sup>{note.symbol}</sup>{note.text}
+      </span>
+    )
+  }
+</div>
