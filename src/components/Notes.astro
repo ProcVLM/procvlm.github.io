@@ -6,12 +6,30 @@ interface Props {
 }
 
 const { notes } = Astro.props;
+const inlineAffiliations = notes.filter((note) =>
+  ["1", "2"].includes(String(note.symbol)),
+);
+const stackedNotes = notes.filter(
+  (note) => !["1", "2"].includes(String(note.symbol)),
+);
 ---
 
 <div class="mx-auto flex max-w-[50rem] flex-col items-center gap-1 text-center text-sm leading-snug">
   {
+    inlineAffiliations.length > 0 && (
+      <div class="flex flex-wrap justify-center gap-x-8 gap-y-1">
+        {inlineAffiliations.map((note) => (
+          <span class="block">
+            <sup>{note.symbol}</sup>
+            {note.text}
+          </span>
+        ))}
+      </div>
+    )
+  }
+  {
     // prettier-ignore
-    notes.map((note) =>
+    stackedNotes.map((note) =>
       <span class="block">
         <sup>{note.symbol}</sup>{note.text}
       </span>
