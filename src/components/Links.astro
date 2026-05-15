@@ -11,14 +11,38 @@ const { links } = Astro.props;
 
 <div class="not-prose flex flex-row flex-wrap justify-center gap-2">
   {
-    links.map((link) => (
-      <a
-        href={link.url}
-        class="flex flex-row items-center gap-2 rounded-full bg-zinc-800 px-5 py-2 text-lg text-white hover:bg-black hover:no-underline dark:bg-zinc-200 dark:text-zinc-900 dark:hover:bg-zinc-50"
-      >
-        {link.icon && <Icon name={link.icon} />}
-        <span>{link.name}</span>
-      </a>
-    ))
+    links.map((link) =>
+      link.items ? (
+        <details class="group relative">
+          <summary class="flex cursor-pointer list-none flex-row items-center gap-2 rounded-full bg-zinc-800 px-5 py-2 text-lg text-white hover:bg-black dark:bg-zinc-200 dark:text-zinc-900 dark:hover:bg-zinc-50 [&::-webkit-details-marker]:hidden">
+            {link.icon && <Icon name={link.icon} />}
+            <span>{link.name}</span>
+            <Icon
+              name="ri:arrow-down-s-line"
+              class="transition-transform group-open:rotate-180"
+            />
+          </summary>
+          <div class="absolute left-1/2 z-20 mt-2 w-64 -translate-x-1/2 overflow-hidden rounded-lg border border-zinc-200 bg-white text-left text-sm shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
+            {link.items.map((item) => (
+              <a
+                href={item.url}
+                class="flex items-center justify-between gap-3 px-4 py-3 text-zinc-800 hover:bg-zinc-100 hover:no-underline dark:text-zinc-100 dark:hover:bg-zinc-800"
+              >
+                <span>{item.name}</span>
+                <Icon name="ri:external-link-line" class="shrink-0" />
+              </a>
+            ))}
+          </div>
+        </details>
+      ) : (
+        <a
+          href={link.url}
+          class="flex flex-row items-center gap-2 rounded-full bg-zinc-800 px-5 py-2 text-lg text-white hover:bg-black hover:no-underline dark:bg-zinc-200 dark:text-zinc-900 dark:hover:bg-zinc-50"
+        >
+          {link.icon && <Icon name={link.icon} />}
+          <span>{link.name}</span>
+        </a>
+      ),
+    )
   }
 </div>

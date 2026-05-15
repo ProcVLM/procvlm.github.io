@@ -6,9 +6,13 @@ export type Author = {
 };
 
 export type Link = {
-  url: string;
+  url?: string;
   name: string;
   icon?: string;
+  items?: {
+    url: string;
+    name: string;
+  }[];
 };
 
 export type Note = {
